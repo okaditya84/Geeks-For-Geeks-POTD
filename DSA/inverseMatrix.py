@@ -16,8 +16,8 @@ def calculate_determinant(matrix):
         + matrix[0][2] * (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0])
     )
 
-def calculate_adjugate(matrix):
-    adjugate = [
+def calculate_adjoint(matrix):
+    adjoint = [
         [
             matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1],
             matrix[0][2] * matrix[2][1] - matrix[0][1] * matrix[2][2],
@@ -34,18 +34,25 @@ def calculate_adjugate(matrix):
             matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0],
         ],
     ]
-    return adjugate
+    return adjoint
 
 def multiply_matrix_by_scalar(matrix, scalar):
-    return [[element * scalar for element in row] for row in matrix]
+    result = []
+    for i in range(len(matrix)):
+        row = []
+        for j in range(len(matrix[i])):
+            row.append(matrix[i][j] * scalar)
+        result.append(row)
+    return result
+
 
 def inverse_matrix(matrix):
     determinant = calculate_determinant(matrix)
     if determinant == 0:
-        return None  # The matrix is not invertible
+        return None  # inverse is not possible
 
-    adjugate = calculate_adjugate(matrix)
-    inverse = multiply_matrix_by_scalar(adjugate, 1 / determinant)
+    adjoint = calculate_adjoint(matrix)
+    inverse = multiply_matrix_by_scalar(adjoint, 1 / determinant)
     return inverse
 
 def main():
